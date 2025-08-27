@@ -1,1 +1,8 @@
+# Environment file
 .env
+
+# Ignore all files in crawler/output/
+crawler/output/*
+
+# Ignore state.json
+crawler/state.json
