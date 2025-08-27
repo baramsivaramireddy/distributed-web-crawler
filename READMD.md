@@ -16,7 +16,7 @@ The system is fully containerized and can be deployed using Docker Compose.
 - Dockerized setup for deployment
 
 ## Tech Stack
-- **Backend:** Python (Requests, BeautifulSoup, psycopg2)
+- **Backend:** Python (Selenium, BeautifulSoup, psycopg2)
 - **Message Queue:** RabbitMQ
 - **Cache/State:** Redis
 - **Database:** PostgreSQL
@@ -25,8 +25,8 @@ The system is fully containerized and can be deployed using Docker Compose.
 
 ## Project Roadmap
 - [x] Stage 1: Crawl single page → store in PostgreSQL
-- [ ] Stage 2: Recursive crawling
-- [ ] Stage 3: URL deduplication with Redis
+- [x] Stage 2: Recursive crawling
+- [x] Stage 3: URL deduplication with Redis (done not with redis)
 - [ ] Stage 4: Rate limiting
 - [ ] Stage 5: RabbitMQ integration
 - [ ] Stage 6: Multiple workers
@@ -41,5 +41,5 @@ The system is fully containerized and can be deployed using Docker Compose.
 git clone https://github.com/baramsivaramireddy/distributed-web-crawler.git
 cd distributed-web-crawler
 python -m venv env
-source env/bin/activate   # On Windows: venv\Scripts\activate
+source env/bin/activate   #On Windows:env\Scripts\activate
 pip install -r requirements.txt
