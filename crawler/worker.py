@@ -85,6 +85,8 @@ class worker:
         print('crawler is stopped')
         sys.exit(0)
     
+    
+    
      
     def fetch(url):
         
@@ -146,7 +148,7 @@ class worker:
 
 
         all_valid_urls = worker.process_url(soup)
-        print(all_valid_urls)
+       
         links_queue.extend(all_valid_urls)
        
         return {"url":task.get("url"),"title": task.get('title') , "content":soup.getText() , "allLink":list(all_valid_urls)}
