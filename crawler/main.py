@@ -4,7 +4,9 @@
 from worker import worker
 
 
+import os 
 
 
-worker.crawl('https://en.wikipedia.org/')
+SEED_URL = os.getenv('SEED_URL', 'https://wikipedia.org')
+worker.crawl(SEED_URL)
 

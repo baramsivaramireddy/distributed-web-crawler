@@ -8,10 +8,10 @@ from selenium.webdriver.chrome.options import Options
 
 
 chrome_options = Options()
-# chrome_options.add_argument("--headless=new")  # modern headless mode
-# chrome_options.add_argument("--disable-gpu")   # recommended on Windows
-# chrome_options.add_argument("--no-sandbox")    # useful for Linux/CI
-# chrome_options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
+chrome_options.add_argument("--headless=new")  # modern headless mode
+chrome_options.add_argument("--disable-gpu")   # recommended on Windows
+chrome_options.add_argument("--no-sandbox")    # useful for Linux/CI
+chrome_options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()) , options=chrome_options)
 
 import time
