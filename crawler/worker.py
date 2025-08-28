@@ -96,7 +96,9 @@ class worker:
         
         print(url,'fetching ')
         driver.implicitly_wait(5)
+        time.sleep(6)
         driver.get(url)
+        
         
         visited_urls.add(url)
         return {"url":driver.current_url,"title":driver.title , "content-html":driver.page_source}
