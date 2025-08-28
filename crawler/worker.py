@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 chrome_options = Options()
-chrome_options.add_argument("--headless=new")  # modern headless mode
+# chrome_options.add_argument("--headless=new")  # modern headless mode
 chrome_options.add_argument("--disable-gpu")   # recommended on Windows
 chrome_options.add_argument("--no-sandbox")    # useful for Linux/CI
 chrome_options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
@@ -86,7 +86,24 @@ class worker:
         sys.exit(0)
     
     
-    
+    def scroll_to_bottom(driver, max_scrolls=20, delay=2):
+        last_height = driver.execute_script("return document.body.scrollHeight")
+        scroll_count = 0
+
+        while scroll_count < max_scrolls:
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight,'smooth');")
+            time.sleep(delay)
+            
+            new_height = driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break
+            
+            last_height = new_height
+            scroll_count += 1
+
+
+
+            
      
     def fetch(url):
         
@@ -95,16 +112,14 @@ class worker:
             return 
         
         print(url,'fetching ')
-        driver.implicitly_wait(5)
-        time.sleep(6)
+        time.sleep(4)
         driver.get(url)
-        
-        
+        worker.scroll_to_bottom(driver)
         visited_urls.add(url)
         return {"url":driver.current_url,"title":driver.title , "content-html":driver.page_source}
     
     def process_url(soup):
-        all_links = []
+        all_links = set()
         for link in soup.find_all("a"):
             href = link.get("href")
             if href and worker.is_valid_url(href):
@@ -117,8 +132,10 @@ class worker:
                     full_url = href
 
                 full_url = worker.remove_params(full_url)  # apply param removal
-                all_links.append(full_url)
-        return all_links
+                
+                if full_url not in visited_urls:
+                    all_links.add(full_url)
+        return list(all_links)
 
 
     def is_valid_url(url: str) -> bool:
@@ -151,9 +168,9 @@ class worker:
 
         all_valid_urls = worker.process_url(soup)
        
-        links_queue.extend(all_valid_urls)
+        # links_queue.extend(all_valid_urls)
        
-        return {"url":task.get("url"),"title": task.get('title') , "content":soup.getText() , "allLink":list(all_valid_urls)}
+        return {"url":task.get("url"),"title": task.get('title') , "content":soup.getText() , "all_links":all_valid_urls }
     
     def save(task, folder= 'output'):
         
